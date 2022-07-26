@@ -10,28 +10,35 @@
 <body class="bg-dark">
     <div class="container mb-5">
         <!-- navigation -->
-        <div class="row rounded-3 my-3">
-            <div class="col">
-                <h3 class="text-primary mb-3">A Cup of Sugar</h3>
+        <div class="col-8 offset-2 mb-2">
+            <div class="row rounded-3 my-3 d-flex justify-content-between">
+                <div class="col-3">
+                    <h3 class="text-primary mb-3"><a class="nav-link link-success active" href="/cups">Cup of Sugar</a></h3>
+                </div>
+                <div class="col-5">
+                    <ul class="nav nav-tabs align-items-end">
+                        <li class="nav-item">
+                            <a class="nav-link link-success" href="/cups">All Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-danger bg-danger bg-opacity-25 text-light active" href="/pantry">{{user.first_name}}'s Pantry</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link link-success" href="/cups">All Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
-                    </li>
-                </ul>
+
+            <div class="row">
+                <div class="mb-2 d-flex justify-content-end">
+                    <a href="/add_cup" class="btn btn-sm btn-outline-primary d-inline">+ Add a Cup</a>
+                </div>
             </div>
-        </div>
 
         <!-- content -->
         <div class="row mb-3">
-            <div class="col-8 offset-2 bg-light rounded-3 p-3">
+            <div class="border border-1 border-light rounded-3 bg-light rounded-3 p-3">
                 {% if cup.type == 'get' %}
                     <div class="border border-1 border-success rounded-3 text-success">
                 {% elif cup.type == 'give' %}
@@ -52,7 +59,9 @@
                         <div class="card-body">
                             <p class="card-text">{{cup.description}}</p>
                             <p class="card-text">Need by {{cup.date}}</p>
-                            <p class="card-text">Location: <a href="https://www.google.com/maps/search/?api=1&query={{cup.address}}" target="_new">{{cup.address}}</a></p>
+                            {% if cup.address|length > 0 %}
+                                <p class="card-text">Location: <a href="https://www.google.com/maps/search/?api=1&query={{cup.address}}" target="_new">{{cup.address}}</a></p>
+                            {% endif %}
                         </div>
                         <div class="card-footer text-muted d-flex justify-content-between">
                             <p>Posted by: <a href="/pantry/{{cup.creator_id}}">{{cup.creator}}</a> by {{cup.created_at}}</p>
@@ -85,13 +94,13 @@
                 {% for row in posts %}
                     {% if session.id == row.poster_id %}
                         <div class="border border-1 border-dark rounded-3 bg-success text-light p-3 pt-1 pb-0 mt-3">
-                            <strong><a href="/pantry/{{row.poster_id}}" class="link-light">{{row.poster}}</a> says:</strong>
-                            <p>{{row.content}}</p>
-                            <a href="/del_post/{{row.id}}" class="link-light">delete post</a>
+                            <div class="d-flex justify-content-end"><strong><a href="/pantry/{{row.poster_id}}" class="link-light">{{row.poster}}</a> said {{row.time_span()}}:</strong></div>
+                            <div class="d-flex justify-content-end"><p>{{row.content}}</p></div>
+                            <div class="d-flex justify-content-end"><a href="/del_post/{{row.id}}" class="link-light">delete post</a></div>
                         </div>
                     {% else %}
                         <div class="border border-1 border-primary rounded-3 bg-secondary bg-opacity-25 text-primary p-3 pt-1 pb-0 mt-3">
-                            <strong><a href="/pantry/{{row.poster_id}}">{{row.poster}}</a> says:</strong>
+                            <strong><a href="/pantry/{{row.poster_id}}">{{row.poster}}</a> said {{row.time_span()}}:</strong>
                             <p>{{row.content}}</p>
                         </div>
                     {% endif %}

@@ -38,40 +38,24 @@ class Cup:
         query = f"DELETE FROM {table} WHERE id = {id};"
         return connectToMySQL(db).query_db(query, {'id': id})
 
-
-
-
-
     @classmethod
     def get_all_cups(cls, id):
-        # query = f"SELECT cups.*, users_following.* FROM {table} LEFT JOIN users ON users.id = cups.creator_id LEFT JOIN users_following ON cups.id = users_following.cup_id;"
-        # query = f"SELECT * FROM {table} LEFT JOIN users_following ON cups.id = users_following.cup_id;"
-        # query = f"SELECT * FROM {table};"
-        # query = f"SELECT * FROM cups LEFT JOIN (SELECT * FROM users_following WHERE follower_id = {id}) AS follow_status ON cups.id = follow_status.cup_id;"
-        # query = f"SELECT * FROM cups LEFT JOIN users_following ON cups.id = users_following.cup_id WHERE users_following.follower_id = {id} OR users_following.follower_id IS NULL;"
         query = f"SELECT * FROM {table} LEFT JOIN users_following ON cups.id = users_following.cup_id AND users_following.follower_id = {id};"
         results = connectToMySQL(db).query_db(query)
-        # print(results)
         data = []
         for row in results:
             cup_data = cls(row)
             cup_data.users_following.append(row['follower_id'])
-            # print(row)
             data.append(cup_data)
         return data
 
-
-
     @classmethod
     def get_cups_by_type(cls, data):
-        # query = f"SELECT cups.*, users_following.* FROM {table} LEFT JOIN users ON users.id = creator_id LEFT  JOIN users_following ON cups.id = cup_id WHERE type = '{type}';"
         query = "SELECT * FROM cups LEFT JOIN users_following ON cups.id = users_following.cup_id AND users_following.follower_id = %(id)s WHERE type = %(type)s;"
         results = connectToMySQL(db).query_db(query, data)
         print(results)
         data = []
         for row in results:
-            # if row['users_id'] == None:
-            #     break
             cup_data = cls(row)
             cup_data.users_following.append(row['follower_id'])
             data.append(cup_data)
@@ -83,6 +67,8 @@ class Cup:
         results = connectToMySQL(db).query_db(query)
         data = []
         for row in results:
+            # cup_data = cls(row)
+            # cup_data.users_following.append(row['follower_id'])
             data.append(cls(row))
         return data
 

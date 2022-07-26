@@ -36,7 +36,6 @@ class User:
     def get_one(cls, id):
         query = f"SELECT * FROM users WHERE users.id = {id}"
         results = connectToMySQL(db).query_db(query)
-        # print(results)
         return cls(results[0])
 
     @classmethod
@@ -57,8 +56,11 @@ class User:
             flash("Last Name must be entered.", "register")
             is_valid = False
         if len(user['phone']) < 10:
-            flash("Please include a 10-digit phone number (no characters).", "register")
+            flash("Please include a 10-digit phone number (no non-numerical charaacters).", "register")
             is_valid = False
+        # if len(user['address']) < 1:
+        #     flash("Please include a 'Google-map-able' address.", "register")
+        #     is_valid = False
         if not EMAIL_REGEX.match(user['email']):
             flash("Invalid email address.", "register")
             is_valid = False

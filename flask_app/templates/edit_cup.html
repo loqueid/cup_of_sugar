@@ -9,69 +9,70 @@
 </head>
 <body class="bg-dark">
     <div class="container mb-5">
-        <!-- navigation -->
-        <div class="row rounded-3 my-3">
-            <div class="col">
-                <h3 class="text-primary mb-3">A Cup of Sugar</h3>
+        <div class="col-8 offset-2 mb-2">
+            <div class="row rounded-3 my-3 d-flex justify-content-between">
+                <div class="col-3">
+                    <h3 class="text-primary mb-3"><a class="nav-link link-success active" href="/cups">Cup of Sugar</a></h3>
+                </div>
+                <div class="col-5">
+                    <ul class="nav nav-tabs align-items-end">
+                        <li class="nav-item">
+                            <a class="nav-link link-success" href="/cups">All Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link link-success" href="/cups">All Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- content -->
-        <div class="row mb-3">
-            <div class="col-6 offset-3 bg-light rounded-3 p-3">
-                <form action="/update_cup" class="border border-1 border-primary rounded-3 text-primary p-3" method="post">
-                    {% with errors = get_flashed_messages(category_filter=["cup"]) %}
-                        {% if errors %}
-                            <ul class="list-group flashes">
-                                {%- for msg in errors %}
-                                <li class="list-group-item-danger alert list-unstyled">{{msg}}</li>
-                                {% endfor -%}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                    <div class="form-check">
-                        {% if cup.type == 'get' %}
-                            <input class="form-check-input" type="radio" name="type" id="type1" value="get" checked>
-                        {% else %}
-                            <input class="form-check-input" type="radio" name="type" id="type1" value="get">
-                        {% endif %}
-                        <label class="form-check-label" for="type1">
-                            Get a Cup <span class="text-muted">(a request or need you have)</span>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        {% if cup.type == 'give' %}
-                            <input class="form-check-input" type="radio" name="type" id="type2" value="give" checked>
-                        {% else %}
-                            <input class="form-check-input" type="radio" name="type" id="type2" value="give">
-                        {% endif %}
-                        <label class="form-check-label" for="type2">
-                            Give a Cup <span class="text-muted">(a service you have to offer)</span>
-                        </label>
-                    </div>
-                    <label for="title"><span class="text-danger">*</span>Title:</label>
-                    <input type="text" name="title" value="{{cup.title}}" class="form-control mb-3">
-                    <label for="description"><span class="text-danger">*</span>Description:</label>
-                    <textarea name="description" cols="30" rows="5" class="form-control mb-3">{{cup.description}}</textarea>
-                    <label for="date">Needed by:</label>
-                    <input type="datetime-local" name="date" value="{{cup.date}}" class="form-control mb-3">
-                    <label for="address">Location:</label>
-                    <input type="text" name="address" class="form-control mb-3" value="{{cup.address}}">
-                    <input type="hidden" name="id" value="{{cup.id}}">
-                    <button class="btn btn-primary mt-3">Update Cup</button>
-                </form>
+
+            <div class="row mb-3">
+                <div class="col-6 offset-3 border border-1 border-light rounded-3 bg-dark rounded-3 p-3">
+                    <form action="/update_cup" class="border border-1 border-primary bg-light rounded-3 text-primary p-3" method="post">
+                        {% with errors = get_flashed_messages(category_filter=["cup"]) %}
+                            {% if errors %}
+                                <ul class="list-group flashes">
+                                    {%- for msg in errors %}
+                                    <li class="list-group-item-danger alert list-unstyled">{{msg}}</li>
+                                    {% endfor -%}
+                                </ul>
+                            {% endif %}
+                        {% endwith %}
+                        <div class="form-check">
+                            {% if cup.type == 'get' %}
+                                <input class="form-check-input" type="radio" name="type" id="type1" value="get" checked>
+                            {% else %}
+                                <input class="form-check-input" type="radio" name="type" id="type1" value="get">
+                            {% endif %}
+                            <label class="form-check-label" for="type1">
+                                Get a Cup <span class="text-muted">(a request or need you have)</span>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            {% if cup.type == 'give' %}
+                                <input class="form-check-input" type="radio" name="type" id="type2" value="give" checked>
+                            {% else %}
+                                <input class="form-check-input" type="radio" name="type" id="type2" value="give">
+                            {% endif %}
+                            <label class="form-check-label" for="type2">
+                                Give a Cup <span class="text-muted">(a service you have to offer)</span>
+                            </label>
+                        </div>
+                        <label for="title"><span class="text-danger">*</span>Title:</label>
+                        <input type="text" name="title" value="{{cup.title}}" class="form-control mb-3">
+                        <label for="description"><span class="text-danger">*</span>Description:</label>
+                        <textarea name="description" cols="30" rows="5" class="form-control mb-3">{{cup.description}}</textarea>
+                        <label for="date">Needed by:</label>
+                        <input type="datetime-local" name="date" value="{{cup.date}}" class="form-control mb-3">
+                        <label for="address">Location:</label>
+                        <input type="text" name="address" class="form-control mb-3" value="{{cup.address}}">
+                        <input type="hidden" name="id" value="{{cup.id}}">
+                        <button class="btn btn-primary mt-3">Update Cup</button>
+                    </form>
+                </div>
             </div>
         </div>
 

@@ -21,7 +21,7 @@ def registration():
 @app.route('/registration', methods=['post'])
 def register_user():
     if not User.validate_register(request.form):
-        return redirect('/registration')
+        return redirect('/register')
     data = request.form.to_dict()
     data['pwd'] = bcrypt.generate_password_hash(request.form['pwd'])
     session['id'] = User.create(data)

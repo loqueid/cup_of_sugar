@@ -9,54 +9,51 @@
 </head>
 <body class="bg-dark">
     <div class="container mb-5">
-        <div class="row rounded-3 my-3">
-            <div class="col">
-                <h3 class="text-primary mb-3">A Cup of Sugar</h3>
+        <div class="col-8 offset-2 mb-2">
+            <div class="row rounded-3 my-3 d-flex justify-content-between">
+                <div class="col-3">
+                    <h3 class="text-primary mb-3"><a class="nav-link link-success active" href="/cups">Cup of Sugar</a></h3>
+                </div>
+                <div class="col-5">
+                    <ul class="nav nav-tabs align-items-end">
+                        <li class="nav-item">
+                            <a class="nav-link link-success" href="/cups">All Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-warning bg-warning bg-opacity-25 text-light active" href="/cups/mycups">My Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link link-success" href="/cups">All Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-warning active" href="/cups/mycups">My Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-8 offset-2 mb-2 d-flex justify-content-between">
-                <h4 class="d-inline">A Cup of Sugar - something here</h4>
-                <div>
-                    <div class="btn-group btn-group-sm" role="group">
-                        {% if session.cup_type == '' %}
-                            <a href="/cups" class="btn btn-secondary active">All Cups</a>
-                            <a href="/cups/get" class="btn btn-outline-success">Get a Cup</a>
-                            <a href="/cups/give" class="btn btn-outline-primary">Give a Cup</a>
-                        {% elif session.cup_type == '/get' %}
-                            <a href="/cups" class="btn btn-outline-secondary">All Cups</a>
-                            <a href="/cups/get" class="btn btn-success active">Get a Cup</a>
-                            <a href="/cups/give" class="btn btn-outline-primary">Give a Cup</a>
-                        {% elif session.cup_type == '/give' %}
-                            <a href="/cups" class="btn btn-outline-secondary">All Cups</a>
-                            <a href="/cups/get" class="btn btn-outline-success">Get a Cup</a>
-                            <a href="/cups/give" class="btn btn-primary active">Give a Cup</a>
-                        {% endif %}
+            <div class="row">
+                <div class="mb-2 d-flex justify-content-between">
+                    <div>
+                        <div class="btn-group btn-group-sm" role="group">
+                            {% if session.cup_type == '' %}
+                                <a href="/cups" class="btn btn-secondary active">All Cups</a>
+                                <a href="/cups/get" class="btn btn-outline-success">Get a Cup</a>
+                                <a href="/cups/give" class="btn btn-outline-primary">Give a Cup</a>
+                            {% elif session.cup_type == '/get' %}
+                                <a href="/cups" class="btn btn-outline-secondary">All Cups</a>
+                                <a href="/cups/get" class="btn btn-success active">Get a Cup</a>
+                                <a href="/cups/give" class="btn btn-outline-primary">Give a Cup</a>
+                            {% elif session.cup_type == '/give' %}
+                                <a href="/cups" class="btn btn-outline-secondary">All Cups</a>
+                                <a href="/cups/get" class="btn btn-outline-success">Get a Cup</a>
+                                <a href="/cups/give" class="btn btn-primary active">Give a Cup</a>
+                            {% endif %}
+                        </div>
                     </div>
                     <a href="/add_cup" class="btn btn-sm btn-outline-primary d-inline">+ Add a Cup</a>
                 </div>
             </div>
-        </div>
 
-        <div class="row mb-3">
-            <div class="col-8 offset-2 bg-light rounded-3 text-light p-3">
-
-
-                
+            <div class="row mb-3">
+                <div class="border border-1 border-light rounded-3 text-light p-3">
                 {% for row in mycups %}
                     {% if row.type == 'get' %}
                         <div class="card text-white bg-success mt-3">

@@ -9,29 +9,29 @@
 </head>
 <body class="bg-dark">
     <div class="container mb-5">
-        <!-- navigation -->
-        <div class="row rounded-3 my-3">
-            <div class="col">
-                <h3 class="text-primary mb-3">A Cup of Sugar</h3>
+        <div class="col-8 offset-2 mb-2">
+            <div class="row rounded-3 my-3 d-flex justify-content-between">
+                <div class="col-3">
+                    <h3 class="text-primary mb-3"><a class="nav-link link-success active" href="/cups">Cup of Sugar</a></h3>
+                </div>
+                <div class="col-5">
+                    <ul class="nav nav-tabs align-items-end">
+                        <li class="nav-item">
+                            <a class="nav-link link-success" href="/cups">All Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link link-success" href="/cups">All Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- content -->
-        <div class="row mb-3">
-            <div class="col-6 offset-3 bg-light rounded-3 p-3">
-                <form action="/create_cup" class="border border-1 border-primary rounded-3 text-primary p-3" method="post">
+
+            <div class="row mb-3">
+                <div class="col-6 offset-3 border border-1 border-light rounded-3 bg-dark rounded-3 p-3">
+                <form action="/create_cup" class="border border-1 border-primary bg-light rounded-3 text-primary p-3" method="post">
                     {% with errors = get_flashed_messages(category_filter=["cup"]) %}
                         {% if errors %}
                             <ul class="list-group flashes">

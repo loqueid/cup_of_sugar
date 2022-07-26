@@ -21,15 +21,10 @@ class Post:
     def time_span(self):
         now = datetime.now()
         delta = now - self.created_at
-        print(delta.weeks)
-        print(delta.days)
-        print(delta.total_seconds())
-        if delta.weeks > 0:
-            return f"{delta.weeks} weeks ago"
+        if delta.days > 0:
+            return f"{delta.days} days ago"
         elif (math.floor(delta.total_seconds() / 60)) >= 60:
-            return f"{math.floor(math.floor(math.floor(delta.total_seconds() /24) /60)/60)} days ago"
-        elif (math.floor(delta.total_seconds() / 60)) >= 60:
-            return f"{math.floor(math.floor(delta.total_seconds() /60)/60)} hours ago"
+            return f"{math.floor(math.floor(delta.total_seconds() / 60)/60)} hours ago"
         elif delta.total_seconds() >= 60:
             return f"{math.floor(delta.total_seconds() / 60)} minutes ago"
         else:
@@ -47,7 +42,6 @@ class Post:
 
     @classmethod
     def get_cup_posts(cls, cup_id):
-        # query = f"SELECT * FROM {table} LEFT JOIN users ON users.id = cup_id;"
         query = f"SELECT users.first_name as poster, posts.* FROM {table} LEFT JOIN users ON users.id = posts.poster_id WHERE cup_id = {cup_id};"
         results = connectToMySQL(db).query_db(query)
         data = []
