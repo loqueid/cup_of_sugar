@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Cup of Sugar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body class="bg-dark">
+    <div class="container mb-5">
+        <!-- navigation -->
+        <div class="row rounded-3 my-3">
+            <div class="col">
+                <h3 class="text-primary mb-3">A Cup of Sugar</h3>
+            </div>
+            <div class="col">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link link-success" href="/cups">All Cups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-warning" href="/cups/mycups">My Cups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-danger" href="/pantry">{{user.first_name}}'s Pantry</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- content -->
+        <div class="row mb-3">
+            <div class="col-8 offset-2 bg-light rounded-3 p-3">
+                {% if cup.type == 'get' %}
+                    <div class="border border-1 border-success rounded-3 text-success">
+                {% elif cup.type == 'give' %}
+                    <div class="border border-1 border-primary rounded-3 text-primary">
+                {% endif %}
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h4>{{cup.title}}</h4>
+                                    <span>
+                                    {% if session.id in cup.users_following %}
+                                        <a href="/-cup/{{cup.id}}"><img src="/static/cup_full.png" alt="Remove from My Cups" width="20"></a>
+                                    {% else %}
+                                        <a href="/+cup/{{cup.id}}"><img src="/static/cup_empty.png" alt="Add to My Cups" width="20"></a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{cup.description}}</p>
+                            <p class="card-text">Need by {{cup.date}}</p>
+                            <p class="card-text">Location: <a href="https://www.google.com/maps/search/?api=1&query={{cup.address}}" target="_new">{{cup.address}}</a></p>
+                        </div>
+                        <div class="card-footer text-muted d-flex justify-content-between">
+                            <p>Posted by: <a href="/pantry/{{cup.creator_id}}">{{cup.creator}}</a> by {{cup.created_at}}</p>
+                            <span>
+                            {% if cup.creator_id == session.id %}
+                                <a href="/cups/{{cup.id}}/edit">edit</a> | <a href="/cups/{{cup.id}}/del">delete</a>
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                <!-- posts -->
+                <form action="/create_post" class="mt-3" method="post">
+                    {% with errors = get_flashed_messages(category_filter=["post"]) %}
+                        {% if errors %}
+                            <ul class="list-group flashes">
+                            {%- for msg in errors %}
+                                <li class="list-group-item-danger alert list-unstyled">{{msg}}</li>
+                            {% endfor -%}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                    <div class="d-flex justify-content-between">
+                        <textarea name="content" rows="2" class="form-control me-3"></textarea>
+                        <input type="hidden" name="cup_id" value="{{cup.id}}">
+                        <input type="hidden" name="poster_id" value="{{session.id}}">
+                        <button class="btn btn-outline-primary align-self-center">Post</button>
+                    </div>
+                </form>
+                <hr>
+                {% for row in posts %}
+                    {% if session.id == row.poster_id %}
+                        <div class="border border-1 border-dark rounded-3 bg-success text-light p-3 pt-1 pb-0 mt-3">
+                            <strong><a href="/pantry/{{row.poster_id}}" class="link-light">{{row.poster}}</a> says:</strong>
+                            <p>{{row.content}}</p>
+                            <a href="/del_post/{{row.id}}" class="link-light">delete post</a>
+                        </div>
+                    {% else %}
+                        <div class="border border-1 border-primary rounded-3 bg-secondary bg-opacity-25 text-primary p-3 pt-1 pb-0 mt-3">
+                            <strong><a href="/pantry/{{row.poster_id}}">{{row.poster}}</a> says:</strong>
+                            <p>{{row.content}}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

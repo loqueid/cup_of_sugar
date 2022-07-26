@@ -1,0 +1,45 @@
+Service app/website
+A Cup of Sugar
+
+User:
+> registration
+> add skills
+
+Michael Gordan
+> 
+
+Service Events (#)
+> Organized events
+  (Install sprinklers @
+  (Pull weeds @
+-- sign up
+-- add to calendar
+> Post an event
+-- name
+-- location
+-- time
+-- details{{
+-- (administrators only
+> Contact admin for an event
+
+Requests (#)
+> Lists requests
+-- borrow/service/
+-- date needed
+-- filter w/ your skills
+-- contact
+> Add a request
+
+Messages (#)
+> global
+> personal
+
+Profile
+> User data
+-- name
+-- messages
+-- phone number
+-- location
+> Skills list
+
+Future: groups
